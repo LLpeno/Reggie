@@ -81,11 +81,23 @@ public class DishController {
         DishDto dishDto = dishService.getByIdWithFlavor(id);
         return R.success(dishDto);
     }
-
     @PutMapping
     public R<String> update(@RequestBody DishDto dishDto){
         dishService.updateWithFlavor(dishDto);
 
         return R.success("新增菜品成功");
     }
+
+    @GetMapping("/list")
+    public R<List<Dish>> list(Dish dish){
+        LambdaQueryWrapper<Dish> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(dish.getCategoryId() != null,Dish::getCategoryId,dish.getCategoryId());
+        queryWrapper.eq(Dish::getStatus,1); // (起售状态）的菜品
+        // 添加排序条件
+        queryWrapper.orderByAsc(Dish :: getSort).orderByDesc(Dish :: getUpdateTime);
+        List<Dish> list = dishService.list(queryWrapper);
+
+        return R.success(list);
+    }
+
 }
