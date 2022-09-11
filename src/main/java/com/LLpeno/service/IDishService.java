@@ -1,5 +1,6 @@
 package com.LLpeno.service;
 
+import com.LLpeno.DTO.DishDto;
 import com.LLpeno.entity.Dish;
 import com.baomidou.mybatisplus.extension.service.IService;
 
@@ -9,4 +10,10 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 
 public interface IDishService extends IService<Dish> {
+    // 新增菜品，同时添加口味数据
+    void saveWithFlavor(DishDto dishDto );
+
+    DishDto getByIdWithFlavor(Long id);
+
+    void updateWithFlavor(DishDto dishDto);
 }
